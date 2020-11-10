@@ -17,7 +17,7 @@ class ProductPage(BasePage):
         self.is_price_in_basket_message()
         self.should_be_go_to_basket()
         self.is_product_in_basket_correct()
-        self.is_price_in_basketi_correct()
+        self.is_price_in_basket_correct()
 
 
     def get_product_name(self):
@@ -81,10 +81,11 @@ class ProductPage(BasePage):
         """
         product = self.browser.find_element(*ProductPageLocators.PRODUCT_IN_BASKET)
         print(f"Product in the basket: {product.text}")
-        assert self.product_name == product.text
+        assert self.product_name == product.text, \
+            "The name product in basket wrong!!!"
 
 
-    def is_price_in_basketi_correct(self):
+    def is_price_in_basket_correct(self):
         """
         Проверяем, что цена в корзине соответствует выбранной
         """
