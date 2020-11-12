@@ -6,6 +6,15 @@ from selenium.webdriver.common.by import By
 
 
 @dataclass
+class BasePageLocators():
+    """
+    Базовый класс для селекторов
+    """
+    LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
+    LOGIN_LINK_INVALID = (By.CSS_SELECTOR, "#login_link_inc")
+
+
+@dataclass
 class MainPageLocators():
     """
     Элементы на главной странице сайта
