@@ -12,6 +12,10 @@ class BasePageLocators():
     """
     LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
     LOGIN_LINK_INVALID = (By.CSS_SELECTOR, "#login_link_inc")
+    BASKET_LINK = (
+        By.CSS_SELECTOR,
+        "div.basket-mini.pull-right.hidden-xs span.btn-group a.btn.btn-default"
+    )
 
 
 @dataclass
@@ -54,5 +58,20 @@ class ProductPageLocators():
     PRICE_IN_BASKET = (
         By.CSS_SELECTOR,
         "div.basket-items div.row div.col-sm-1 p.price_color.align-right")
+    # Сообщение о добавлении товара в корзину
     ALERT_ADD = (By.CSS_SELECTOR,
                  "div.alert-success:nth-child(1) > div.alertinner")
+
+
+@dataclass
+class BasketPageLocators():
+    """
+    Элементы, используемые на странице корзины
+    """
+    # форма для содержимого корзины, появляется, если корзина не пуста
+    BASKET_FORM = (By.CSS_SELECTOR, "form#basket_formset")
+    # строка содержимого в корзине (может быть несколько)
+    BASKET_ITEM = (By.CSS_SELECTOR, "form#basket_formset div.basket-items")
+    # информация о том, что корзина пуста
+    BASKET_EMPTY_INFO = (By.CSS_SELECTOR,
+                         "div.page_inner div.content div#content_inner p")

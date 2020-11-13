@@ -6,9 +6,10 @@
 """
 import pytest
 from .pages.product_page import ProductPage
+from .pages.basket_page import BasketPage
 
 BASE_LINK = "http://selenium1py.pythonanywhere.com/catalogue/"
-MAIN_LINK = "coders-at-work_207/"  # В основном работаем с этим сайтом
+BOOK_LINK = "coders-at-work_207/"  # В основном работаем с этой книгой
 PROMO_LINK = "?promo=newYear2019"
 
 
@@ -37,7 +38,7 @@ def test_guest_can_add_product_to_basket_one_page(browser):
     для одного сайта
     Задание 4.3.3
     """
-    test_guest_can_add_product_to_basket(browser, MAIN_LINK + PROMO_LINK)
+    test_guest_can_add_product_to_basket(browser, BOOK_LINK + PROMO_LINK)
 
 
 @pytest.mark.xfail(reason="Тестовое упражнение")
@@ -48,7 +49,7 @@ def test_guest_cant_see_success_message_after_adding_product_to_basket(
     Добавляем товар в корзину
     Проверяем, что нет сообщения об успехе с помощью is_not_element_present
     """
-    page = ProductPage(browser, BASE_LINK + MAIN_LINK)
+    page = ProductPage(browser, BASE_LINK + BOOK_LINK)
     page.open()
     page.should_be_see_add_to_basket_btn()
     page.should_be_click_btn_add_to_basket()
@@ -60,7 +61,7 @@ def test_guest_cant_see_success_message(browser):
     Открываем страницу товара
     Проверяем, что нет сообщения об успехе с помощью is_not_element_present
     """
-    page = ProductPage(browser, BASE_LINK + MAIN_LINK)
+    page = ProductPage(browser, BASE_LINK + BOOK_LINK)
     page.open()
     page.is_not_present_message_after_adding_to_basket()
 
@@ -72,7 +73,7 @@ def test_message_disappeared_after_adding_product_to_basket(browser):
     Добавляем товар в корзину
     Проверяем, что нет сообщения об успехе с помощью is_disappeared
     """
-    page = ProductPage(browser, BASE_LINK + MAIN_LINK)
+    page = ProductPage(browser, BASE_LINK + BOOK_LINK)
     page.open()
     page.should_be_see_add_to_basket_btn()
     page.should_be_click_btn_add_to_basket()
@@ -91,3 +92,34 @@ def test_guest_can_go_to_login_page_from_product_page(browser):
     page = ProductPage(browser, link)
     page.open()
     page.go_to_login_page()
+
+
+def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
+    """
+    Гость открывает страницу товара
+    Переходит в корзину по кнопке в шапке
+    Ожидаем, что в корзине нет товаров
+    Ожидаем, что есть текст о том что корзина пуста
+    """
+    link = BASE_LINK + BOOK_LINK
+    page = ProductPage(browser, link)
+    page.open()
+    page.go_to_basket_page()
+    basket_page = BasketPage(browser, browser.current_url)
+    basket_page.is_basket_empty()
+    basket_page.there_is_a_message_that_the_basket_is_empty()
+
+
+@pytest.mark.xfail()
+def test_guest_can_see_product_in_basket_opened_from_product_page(browser):
+    """
+    Гость открывает страницу товара
+    Переходит в корзину по кнопке в шапке
+    Ожидаем, что в корзине уже есть товары
+    """
+    link = BASE_LINK + BOOK_LINK
+    page = ProductPage(browser, link)
+    page.open()
+    page.go_to_basket_page()
+    basket_page = BasketPage(browser, browser.current_url)
+    basket_page.is_basket_not_empty()

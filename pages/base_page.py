@@ -20,12 +20,16 @@ class BasePage():
         self.browser = browser
         self.url = url
         self.browser.implicitly_wait(timeout)
+        self.language = "en"
 
     def open(self):
         """
         Открывает ссылку
         """
         self.browser.get(self.url)
+        self.language = self.browser.execute_script(
+            "return window.navigator.userLanguage || window.navigator.language"
+        )
 
     def is_element_present(self, how, what):
         """
@@ -94,3 +98,19 @@ class BasePage():
     def should_be_login_link(self):
         assert self.is_element_present(
             *BasePageLocators.LOGIN_LINK), "Login link is not presented"
+
+    def is_basket_link_present(self):
+        assert self.is_element_present(
+            *BasePageLocators.BASKET_LINK), "Basket link is not presented"
+
+    def go_to_basket_page(self):
+        link = self.browser.find_element(*BasePageLocators.BASKET_LINK)
+        link.click()
+
+    def get_element(self, how, what):
+        try:
+            element = self.browser.find_element(how, what)
+        except NoSuchElementException:
+            assert False, "Element not found!"
+            return None
+        return element
