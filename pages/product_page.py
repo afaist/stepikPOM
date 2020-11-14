@@ -12,11 +12,11 @@ class ProductPage(BasePage):
     def get_product_name(self):
         self.product_name = self.get_element_text(
             *ProductPageLocators.PRODUCT_NAME)
-        print(f"Product name = '{self.product_name}'")
+        print("Product name = '{}'".format(self.product_name))
 
     def get_product_price(self):
         self.price = self.get_element_text(*ProductPageLocators.PRODUCT_PRICE)
-        print(f"price = {self.price}")
+        print("price = {}".format(self.price))
 
     def should_be_see_add_to_basket_btn(self):
         """
@@ -64,7 +64,7 @@ class ProductPage(BasePage):
         Цена продукта в сообщении о добавлнении в корзину правильная
         """
         price = self.get_element_text(*ProductPageLocators.PRICE_IN_MESSAGE)
-        print(f"Price added to the basket: {price}")
+        print("Price added to the basket: {}".format(price))
         assert self.price == price, "The price in the basket is wrong!!!!"
 
     def should_be_go_to_basket(self):
@@ -78,7 +78,7 @@ class ProductPage(BasePage):
         Проверяем, что в корзине находится нужный продукт
         """
         product = self.get_element_text(*ProductPageLocators.PRODUCT_IN_BASKET)
-        print(f"Product in the basket: {product}")
+        print("Product in the basket: '{}'".format(product))
         assert self.product_name == product, \
             "The name product in basket wrong!!!"
 
@@ -87,5 +87,5 @@ class ProductPage(BasePage):
         Проверяем, что цена в корзине соответствует выбранной
         """
         price = self.get_element_text(*ProductPageLocators.PRICE_IN_BASKET)
-        print(f"Price in the basket: {price}")
+        print("Price in the basket: {}".format(price))
         assert self.price == price

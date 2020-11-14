@@ -66,7 +66,6 @@ class BasketPage(BasePage):
         """
         Есть сообщение о том, что корзина пустая
         """
-        txt = self.get_element(*BasketPageLocators.BASKET_EMPTY_INFO).text
-        print(f"Сообщение на странице о пустой корзине: '{txt}'")
+        txt = self.get_element_text(*BasketPageLocators.BASKET_EMPTY_INFO)
         assert txt.startswith(self.languages[
             self.language]), "Message about empty basket is wrong!"

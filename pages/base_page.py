@@ -64,11 +64,11 @@ class BasePage():
         try:
             alert = self.browser.switch_to.alert
             alert_text = alert.text
-            print(f"Your code: {alert_text}")
+            print("Your code: {}".format(alert_text))
             alert.accept()
             code = alert_text.split(":")[-1]
             pyperclip.copy(code)
-            print(f"Код {code} скопирован в буфер обмена.")
+            print("Код {} скопирован в буфер обмена.".format(code))
         except NoAlertPresentException:
             print("No second alert presented")
 

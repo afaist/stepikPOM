@@ -31,7 +31,7 @@ def browser(request):
     """
     browser_name = request.config.getoption("browser_name")
     user_language = request.config.getoption("language")
-    print(f"User language: {user_language}")
+    print("User language - {}".format(user_language))
     if user_language == "":
         # Пользователь использовал опцию --language, но не задал значение опции
         user_language = "ru"
