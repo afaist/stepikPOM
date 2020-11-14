@@ -1,11 +1,9 @@
 """
 Модуль описывает пути к элементам соответствующих страниц
 """
-from dataclasses import dataclass
 from selenium.webdriver.common.by import By
 
 
-@dataclass
 class BasePageLocators():
     """
     Базовый класс для селекторов
@@ -21,7 +19,6 @@ class BasePageLocators():
     USER_ICON = (By.CSS_SELECTOR, ".icon-user")
 
 
-@dataclass
 class MainPageLocators():
     """
     Элементы на главной странице сайта
@@ -29,7 +26,6 @@ class MainPageLocators():
     LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
 
 
-@dataclass
 class LoginPageLocators():
     """
     Элементы на странице регистрации
@@ -45,7 +41,6 @@ class LoginPageLocators():
                     "#register_form.well button.btn.btn-lg.btn-primary")
 
 
-@dataclass
 class ProductPageLocators():
     """
     Элементы, используемые при добавлении продукта в корзину
@@ -73,7 +68,6 @@ class ProductPageLocators():
                  "div.alert-success:nth-child(1) > div.alertinner")
 
 
-@dataclass
 class BasketPageLocators():
     """
     Элементы, используемые на странице корзины
