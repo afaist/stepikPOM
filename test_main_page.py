@@ -1,27 +1,49 @@
+"""
+Тесты главной страницы приложения
+"""
+import pytest
 from .pages.main_page import MainPage
 from .pages.login_page import LoginPage
 from .pages.basket_page import BasketPage
 
-
-def test_guest_can_go_to_login_page(browser):
-    link = "http://selenium1py.pythonanywhere.com/"
-    # инициализируем Page Object, передаем в констурктор экземлпяр
-    # драйвера и url
-    page = MainPage(browser, link)
-    # открываем страницу
-    page.open()
-    # выполняем метод страницы - переходим на страницу логина
-    page.go_to_login_page()
-    # Делаем проверки на странице логина
-    login_page = LoginPage(browser, browser.current_url)
-    login_page.should_be_login_page()
+# Ссылка на главную страницу приложения
+BASE_LINK = "http://selenium1py.pythonanywhere.com/"
 
 
-def test_guest_should_see_login_link(browser):
-    link = "http://selenium1py.pythonanywhere.com/"
-    page = MainPage(browser, link)
-    page.open()
-    page.should_be_login_link()
+@pytest.mark.login_guest
+class TestLoginFromMainPage():
+    """
+    Класс с тестами входа пользователя
+    """
+
+    def setup_method(self):
+        """
+        Задаем ссылку для каждого метода
+        """
+        self.link = BASE_LINK
+
+    def test_guest_can_go_to_login_page(self, browser):
+        """
+        Гость может перейти на страницу регистрации
+        """
+        # инициализируем Page Object, передаем в констурктор экземлпяр
+        # драйвера и url
+        page = MainPage(browser, self.link)
+        # открываем страницу
+        page.open()
+        # выполняем метод страницы - переходим на страницу логина
+        page.go_to_login_page()
+        # Делаем проверки на странице логина
+        login_page = LoginPage(browser, browser.current_url)
+        login_page.should_be_login_page()
+
+    def test_guest_should_see_login_link(self, browser):
+        """
+        Гость может видеть ссылку на страницу регистрации
+        """
+        page = MainPage(browser, self.link)
+        page.open()
+        page.should_be_login_link()
 
 
 def test_guest_cant_see_product_in_basket_opened_from_main_page(browser):
@@ -31,8 +53,7 @@ def test_guest_cant_see_product_in_basket_opened_from_main_page(browser):
     Ожидаем, что в корзине нет товаров
     Ожидаем, что есть текст о том что корзина пуста
     """
-    link = "http://selenium1py.pythonanywhere.com/"
-    page = MainPage(browser, link)
+    page = MainPage(browser, BASE_LINK)
     page.open()
     page.is_basket_link_present()
     page.go_to_basket_page()

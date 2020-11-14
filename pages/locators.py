@@ -12,10 +12,13 @@ class BasePageLocators():
     """
     LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
     LOGIN_LINK_INVALID = (By.CSS_SELECTOR, "#login_link_inc")
+    # ссылка перехода в корзину в шапке страницы
     BASKET_LINK = (
         By.CSS_SELECTOR,
         "div.basket-mini.pull-right.hidden-xs span.btn-group a.btn.btn-default"
     )
+    # селектор для залогиненого пользователя
+    USER_ICON = (By.CSS_SELECTOR, ".icon-user")
 
 
 @dataclass
@@ -31,8 +34,15 @@ class LoginPageLocators():
     """
     Элементы на странице регистрации
     """
+    # форма входа
     LOGIN_FORM = (By.CSS_SELECTOR, "#login_form")
+    # форма регистрации
     REGISTER_FORM = (By.CSS_SELECTOR, "#register_form")
+    REGISTER_EMAIL = (By.CSS_SELECTOR, "#id_registration-email")
+    REGISTER_PWD_1 = (By.CSS_SELECTOR, "#id_registration-password1")
+    REGISTER_PWD_2 = (By.CSS_SELECTOR, "#id_registration-password2")
+    REGISTER_BTN = (By.CSS_SELECTOR,
+                    "#register_form.well button.btn.btn-lg.btn-primary")
 
 
 @dataclass

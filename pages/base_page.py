@@ -9,6 +9,7 @@ from selenium.common.exceptions import NoAlertPresentException
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+
 from .locators import BasePageLocators
 
 
@@ -21,12 +22,15 @@ class BasePage():
         self.url = url
         self.browser.implicitly_wait(timeout)
         self.language = "en"
+        self.product_name = ""
+        self.price = ""
 
     def open(self):
         """
         Открывает ссылку
         """
         self.browser.get(self.url)
+        # выясняем язык пользователя
         self.language = self.browser.execute_script(
             "return window.navigator.userLanguage || window.navigator.language"
         )
@@ -92,25 +96,67 @@ class BasePage():
         return True
 
     def go_to_login_page(self):
-        link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
-        link.click()
+        """
+        Переход на страницу входа
+        """
+        self.click_button(*BasePageLocators.LOGIN_LINK)
 
     def should_be_login_link(self):
+        """
+        Проверяем, что есть ссылка на login
+        """
         assert self.is_element_present(
             *BasePageLocators.LOGIN_LINK), "Login link is not presented"
 
     def is_basket_link_present(self):
+        """
+        Проверяем, что есть ссылка на корзину
+        """
         assert self.is_element_present(
             *BasePageLocators.BASKET_LINK), "Basket link is not presented"
 
-    def go_to_basket_page(self):
-        link = self.browser.find_element(*BasePageLocators.BASKET_LINK)
-        link.click()
-
     def get_element(self, how, what):
+        """
+        Находит элемент на странице
+        """
         try:
             element = self.browser.find_element(how, what)
         except NoSuchElementException:
             assert False, "Element not found!"
-            return None
         return element
+
+    def get_element_text(self, how, what) -> str:
+        element = self.get_element(how, what)
+        return element.text
+
+    def fill_text_box(self, how, what, txt):
+        """
+        Заполняет элемент переданным текстом
+        """
+        element = self.get_element(how, what)
+        element.clear()
+        element.send_keys(txt)
+
+    def click_button(self, how, what):
+        """
+        Находит кнопку или ссылку и кликает по ней
+        """
+        element = self.get_element(how, what)
+        if element.is_displayed() and element.is_enabled():
+            element.click()
+        else:
+            assert False, "Element is not displayed or enabled"
+
+    def go_to_basket_page(self):
+        """
+        Переход на страницу корзины
+        """
+        self.click_button(*BasePageLocators.BASKET_LINK)
+
+    def should_be_authorized_user(self):
+        """
+        Проверяем, что пользователь зарегистрирован
+        """
+        assert self.is_element_present(
+            *BasePageLocators.USER_ICON
+        ), "User icon is not presented, probably unauthorised user"
